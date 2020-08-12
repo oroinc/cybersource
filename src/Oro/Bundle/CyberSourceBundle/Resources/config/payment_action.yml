@@ -1,0 +1,91 @@
+services:
+    oro_cybersource.method.executor.hosted_checkout.payment_action:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\Executor\PaymentActionExecutor'
+        public: false
+        lazy: true
+        calls:
+            - ['addPaymentAction', ['@oro_cybersource.method.payment_action.hosted_checkout.purchase']]
+            - ['addPaymentAction', ['@oro_cybersource.method.payment_action.hosted_checkout.authorize']]
+            - ['addPaymentAction', ['@oro_cybersource.method.payment_action.capture']]
+            - ['addPaymentAction', ['@oro_cybersource.method.payment_action.cancel']]
+            - ['setOptionProvider', ['@oro_cybersource.method.payment_action_option_provider.hosted_checkout']]
+            - ['setCheckoutApiHandler', ['@oro_cybersource.method.payment_action.checkout_api_handler']]
+
+    oro_cybersource.method.executor.checkout_api.payment_action:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\Executor\PaymentActionExecutor'
+        public: false
+        lazy: true
+        calls:
+            - ['addPaymentAction', ['@oro_cybersource.method.payment_action.checkout_api.validate']]
+            - ['addPaymentAction', ['@oro_cybersource.method.payment_action.checkout_api.purchase']]
+            - ['addPaymentAction', ['@oro_cybersource.method.payment_action.capture']]
+            - ['addPaymentAction', ['@oro_cybersource.method.payment_action.cancel']]
+            - ['setOptionProvider', ['@oro_cybersource.method.payment_action_option_provider.checkout_api']]
+            - ['setCheckoutApiHandler', ['@oro_cybersource.method.payment_action.checkout_api_handler']]
+
+    oro_cybersource.method.payment_action.abstract:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\AbstractPaymentAction'
+        abstract: true
+
+    oro_cybersource.method.payment_action.hosted_checkout.purchase:
+        parent: oro_cybersource.method.payment_action.abstract
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\HostedCheckout\PurchasePaymentAction'
+        public: false
+        lazy: true
+
+    oro_cybersource.method.payment_action.checkout_api.purchase:
+        parent: oro_cybersource.method.payment_action.abstract
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\CheckoutApi\PurchasePaymentAction'
+        public: false
+        lazy: true
+
+    oro_cybersource.method.payment_action.checkout_api.validate:
+        parent: oro_cybersource.method.payment_action.abstract
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\CheckoutApi\ValidatePaymentAction'
+        public: false
+        lazy: true
+
+    oro_cybersource.method.payment_action.hosted_checkout.authorize:
+        parent: oro_cybersource.method.payment_action.abstract
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\HostedCheckout\AuthorizePaymentAction'
+        public: false
+        lazy: true
+
+    oro_cybersource.method.payment_action.capture:
+        parent: oro_cybersource.method.payment_action.abstract
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\CapturePaymentAction'
+        public: false
+        lazy: true
+
+    oro_cybersource.method.payment_action.cancel:
+        parent: oro_cybersource.method.payment_action.abstract
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\CancelPaymentAction'
+        public: false
+        lazy: true
+
+    oro_cybersource.method.payment_action_option_provider.abstract:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\Provider\AbstractPaymentActionOptionProvider'
+        abstract: true
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_payment.provider.address_extractor'
+
+    oro_cybersource.method.payment_action_option_provider.checkout_api:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\Provider\CheckoutApi\PaymentActionOptionProvider'
+        parent: oro_cybersource.method.payment_action_option_provider.abstract
+
+    oro_cybersource.method.payment_action_option_provider.hosted_checkout:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\PaymentAction\Provider\HostedCheckout\PaymentActionOptionProvider'
+        parent: oro_cybersource.method.payment_action_option_provider.abstract
+        calls:
+            - [setRequestStack, ['@request_stack']]
+            - [setRouter, ['@router']]
+
+    oro_cybersource.method.payment_action.checkout_api_handler:
+        class: Oro\Bundle\CyberSourceBundle\Method\PaymentAction\Handler\CheckoutApiHandler
+        calls:
+            - ['setLogger', ['@logger']]
+        arguments:
+            - '@oro_website.resolver.website_url_resolver'
+            - '@oro_website.manager'
+            - '@oro_cybersource.cybersource.factory.api_client'

@@ -1,0 +1,8 @@
+oro_permissions:
+    CYBERSOURCE_CANCEL_AUTHORIZED_PAYMENTS:
+        label: oro.cybersource.permission.cancel_authorized_payments.label
+        apply_to_all: false
+        apply_to_entities:
+            - 'Oro\Bundle\OrderBundle\Entity\Order'
+        group_names:
+            - 'default'

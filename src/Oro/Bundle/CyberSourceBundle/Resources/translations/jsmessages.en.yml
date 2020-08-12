@@ -1,0 +1,15 @@
+oro:
+    cybersource:
+        payment_transaction:
+            cancel:
+                title: Cancel Authorized Payment
+                message: The {{ amount }} authorized payment will be canceled. Are you sure you want to continue?
+                button.okText: Yes, Cancel Authorized Payment
+        create_token_error: 'Payment gateway error.'
+        validation:
+            number:
+                empty: "This value should not be blank."
+                invalid: "Invalid card number."
+            securityCode:
+                empty: "This value should not be blank."
+                invalid: "This value is not valid."

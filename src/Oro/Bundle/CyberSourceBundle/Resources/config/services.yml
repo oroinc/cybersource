@@ -1,0 +1,36 @@
+services:
+    oro_cybersource.repository.cybersource_settings:
+        class: 'Oro\Bundle\CyberSourceBundle\Entity\Repository\CyberSourceSettingsRepository'
+        parent: oro_entity.abstract_repository
+        arguments:
+            - 'Oro\Bundle\CyberSourceBundle\Entity\CyberSourceSettings'
+        calls:
+            - [setAclHelper, ['@oro_security.acl_helper']]
+
+    oro_cybersource.checker.integration:
+        class: 'Oro\Bundle\CyberSourceBundle\Checker\IntegrationChecker'
+        public: true
+        arguments:
+            - '@oro_cybersource.method.generator.identifier'
+            - '@oro_entity.doctrine_helper'
+
+    oro_cybersource.cybersource.factory.api_client:
+        class: 'Oro\Bundle\CyberSourceBundle\CyberSource\Factory\ApiClientFactory'
+
+    oro_cybersource.action.cancel_payment_transaction:
+        class: 'Oro\Bundle\CyberSourceBundle\Action\PaymentTransactionCancelAction'
+        parent: oro_payment.action.payment_method_action.abstract
+        tags:
+            - { name: oro_action.action, alias: payment_transaction_cybersource_cancel }
+
+    oro_cybersource.condition.payment_transaction_was_canceled:
+        class: 'Oro\Bundle\CyberSourceBundle\Condition\PaymentTransactionWasCanceled'
+        arguments:
+            - '@oro_payment.repository.payment_transaction'
+        tags:
+            - { name: oro_action.condition, alias: 'payment_transaction_cybersource_was_canceled' }
+
+    oro_cybersource.provider.payment_status:
+        class: Oro\Bundle\CyberSourceBundle\Provider\PaymentStatusProvider
+        parent: oro_payment.provider.payment_status
+        decorates: oro_payment.provider.payment_status

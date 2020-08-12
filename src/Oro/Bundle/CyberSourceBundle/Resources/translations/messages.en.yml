@@ -1,0 +1,78 @@
+oro:
+    payment:
+        cancel: Cancel
+        status:
+            cybersource_canceled: Payment canceled
+        paymenttransaction:
+            types:
+                cybersource_cancel.label: Cancel
+    cybersource:
+        channel_type.label: CyberSource
+        settings.label: CyberSource Settings
+        settings:
+            form:
+                encrypted_fields_max_length.label: Value can't be encrypted and saved. Please try another value.
+                groups:
+                    display_options.title: Display Options
+                    integration.title: Integration
+                    other.title: Other
+            labels:
+                label: Label
+                tooltip: The payment method name displayed as a payment option for the buyer in the storefront during checkout.
+            short_labels:
+                label: Short Label
+                tooltip: The payment method name displayed in the order history in the back-office and storefront after order submission.
+            merchant_id:
+                label: Merchant ID
+                tooltip: A CyberSource Merchant ID, also referred to as Organization ID, is a unique value within CyberSource that you define during account registration.
+            merchant_descriptor:
+                label: Merchant Descriptor
+                tooltip: Enables you to submit merchant descriptor value displayed on a cardholder's statement.
+            profile_id:
+                label: Profile ID
+                tooltip: Identifies the profile to use with each transaction.
+            access_key:
+                label: Access Key
+                tooltip: Secure Sockets Layer (SSL) authentication with Secure Acceptance.
+            api_key:
+                label: API Key
+                tooltip: An identifier that helps authenticate your account. You must use separate keys for the test and production environments.
+            api_secret_key:
+                label: API Secret Key
+                tooltip: A pre-shared key used to cipher payment information. You must use separate keys for the test and production environments.
+            secret_key:
+                label: Secret Key
+                tooltip: Signs the transaction data and is required for each transaction.
+            test_mode.label: Test Mode
+            method:
+                label: Method
+                tooltip: When Hosted Checkout is selected, the customer in the storefront is redirected to the CyberSource page to provide payment information after creating an order and then redirected back to the success/error page in the OroCommerce store. When Checkout API is selected,  the checkout process is handled through the website with transaction information sent  to CyberSource via REST API.
+            methods:
+                hosted_checkout.label: Hosted Checkout
+                checkout_api.label: Checkout API
+        payment_method:
+            option:
+                description: You will be redirected to CyberSource website to complete your purchase after the order review step.
+        credit_card:
+            expiration_date:
+                year: Year
+                month: Month
+            card_number.label: Credit Card Number
+            expiration_date.label: Expiration Date
+            cvv2.label: CVV
+            whats_this: "What's this?"
+            tooltip: |
+                The verification number is a 3-digit
+                number printed on the back of your card.
+                The American Express security code is a 4-digit
+                number printed on the front of your card.
+        error:
+            api: Payment method is not available. Please try again or contact us for assistance.
+        payment_transaction:
+            cancel:
+                title: Cancel Authorized Payment
+                message: The {{ amount }} authorized payment will be canceled. Are you sure you want to continue?
+                button.okText: Yes, Cancel Authorized Payment
+                result.success: The payment of %amount% has been canceled successfully.
+        permission:
+            cancel_authorized_payments.label: CyberSource Cancel Authorized Payments

@@ -1,0 +1,111 @@
+operations:
+    oro_integration_delete:
+        replace:
+            - preactions
+        preactions:
+            - '@call_service_method':
+                service: oro_integration.utils.edit_mode
+                method: isEditAllowed
+                method_parameters: [$.data.editMode]
+                attribute: $.actionAllowed
+            - '@assign_constant_value':
+                attribute: $.integrationType
+                value: Oro\Bundle\CyberSourceBundle\Integration\CyberSourceChannelType::TYPE
+            - '@tree':
+                conditions:
+                    '@and':
+                        - '@equal': [$.actionAllowed, true]
+                        - '@equal': [$.data.type, $.integrationType]
+                actions:
+                    - '@call_service_method':
+                        service: oro_cybersource.checker.integration
+                        method: isDeleteAllowed
+                        method_parameters: [$.data]
+                        attribute: $.actionAllowed
+
+    oro_order_payment_transaction_capture:
+        preconditions:
+            '@and':
+                - '@not':
+                    - '@payment_transaction_cybersource_was_canceled':
+                        transaction: $.data
+
+    oro_cybersource_payment_transaction_cancel:
+        label: oro.payment.cancel
+        button_options:
+            icon: fa-close
+        applications: [default]
+        datagrids:
+            - order-payment-transactions-grid
+        order: 30
+        preactions:
+            - '@assign_constant_value':
+                  attribute: $.paymentMethodAction
+                  value: Oro\Bundle\PaymentBundle\Method\PaymentMethodInterface::AUTHORIZE
+            - '@assign_constant_value':
+                attribute: $.cancelAction
+                value: Oro\Bundle\CyberSourceBundle\Method\CyberSourcePaymentMethod::CANCEL
+            - '@call_service_method':
+                  service: oro_payment.payment_method.composite_provider
+                  method: getPaymentMethod
+                  method_parameters: [$.data.paymentMethod]
+                  attribute: $.paymentMethod
+            - '@call_method':
+                conditions:
+                    '@not_empty': $.paymentMethod
+                parameters:
+                    attribute: $.isActionSupported
+                    object: $.paymentMethod
+                    method: supports
+                    method_parameters:
+                        - $.cancelAction
+            - '@call_service_method':
+                  service: oro_locale.formatter.number
+                  method: formatCurrency
+                  method_parameters: [$.data.amount, $.data.currency]
+                  attribute: $.amountWithCurrency
+            - '@find_entity':
+                  class: 'Oro\Bundle\OrderBundle\Entity\Order'
+                  where:
+                      id: $.data.entityIdentifier
+                  attribute: $.order
+        preconditions:
+            '@and':
+                - '@acl_granted': ['CYBERSOURCE_CANCEL_AUTHORIZED_PAYMENTS', $.order]
+                - '@equal': [$.data.entity_class, 'Oro\Bundle\OrderBundle\Entity\Order']
+                - '@equal': [$.data.action, $.paymentMethodAction]
+                - '@equal': [$.data.active, true]
+                - '@equal': [$.data.successful, true]
+                - '@equal': [$.isActionSupported, true]
+                - '@not_empty': $.paymentMethod
+                - '@not':
+                      - '@payment_transaction_was_charged':
+                          transaction: $.data
+                - '@not':
+                      - '@payment_transaction_cybersource_was_canceled':
+                          transaction: $.data
+        actions:
+            - '@payment_transaction_cybersource_cancel':
+                  paymentTransaction: $.data
+                  transactionOptions: []
+                  attribute: $.result
+            - '@flash_message':
+                  conditions:
+                      '@equal': ['$.result[successful]', true]
+                  message: oro.cybersource.payment_transaction.cancel.result.success
+                  message_parameters:
+                      'amount': $.amountWithCurrency
+                  type: 'success'
+            - '@flash_message':
+                  conditions:
+                      '@equal': ['$.result[successful]', false]
+                  message: '$.result[message]'
+                  type: 'error'
+        frontend_options:
+            confirmation:
+                title: oro.cybersource.payment_transaction.cancel.title
+                message: oro.cybersource.payment_transaction.cancel.message
+                message_parameters:
+                    amount: $.amountWithCurrency
+                okText: oro.cybersource.payment_transaction.cancel.button.okText
+                component: oroui/js/standart-confirmation
