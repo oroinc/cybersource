@@ -1,0 +1,18 @@
+services:
+    oro_cybersource.repository.cybersource_settings:
+        class: 'Oro\Bundle\CyberSourceBundle\Entity\Repository\CyberSourceSettingsRepository'
+        parent: oro_entity.abstract_repository
+        arguments:
+            - 'Oro\Bundle\CyberSourceBundle\Entity\CyberSourceSettings'
+        calls:
+            - [setAclHelper, ['@oro_security.acl_helper']]
+
+    oro_cybersource.checker.integration:
+        class: 'Oro\Bundle\CyberSourceBundle\Checker\IntegrationChecker'
+        public: true
+        arguments:
+            - '@oro_cybersource.method.generator.identifier'
+            - '@oro_entity.doctrine_helper'
+
+    oro_cybersource.cybersource.factory.api_client:
+        class: 'Oro\Bundle\CyberSourceBundle\CyberSource\Factory\ApiClientFactory'

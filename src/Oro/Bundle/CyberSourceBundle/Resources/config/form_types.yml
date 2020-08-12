@@ -1,0 +1,9 @@
+services:
+    oro_cybersource.form.type.settings:
+        class: 'Oro\Bundle\CyberSourceBundle\Form\Type\CyberSourceSettingsType'
+        arguments:
+            - '@oro_cybersource.integration.transport'
+            - '@oro_security.form.data_transformer.factory.crypted_data'
+            - '@translator'
+        tags:
+            - { name: form.type }

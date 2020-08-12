@@ -1,0 +1,28 @@
+Oro\Bundle\CyberSourceBundle\Entity\CyberSourceSettings:
+    properties:
+        cbsMerchantId:
+            - NotBlank: ~
+            - Length:
+                max: 255
+        cbsMerchantDescriptor:
+            - NotBlank: ~
+            - Length:
+                max: 255
+        cbsProfileId:
+            - NotBlank: ~
+            - Length:
+                max: 255
+        cbsAccessKey:
+            - NotBlank: ~
+            - Length:
+                max: 255
+        cbsApiKey:
+            - NotBlank: ~
+            - Length:
+                max: 255
+        cbsApiSecretKey:
+            - NotBlank: ~
+            - Length:
+                max: 255
+        cbsSecretKey:
+            - NotBlank: ~

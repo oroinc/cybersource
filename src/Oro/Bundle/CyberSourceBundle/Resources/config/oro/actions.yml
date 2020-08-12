@@ -1,0 +1,24 @@
+operations:
+    oro_integration_delete:
+        replace:
+            - preactions
+        preactions:
+            - '@call_service_method':
+                service: oro_integration.utils.edit_mode
+                method: isEditAllowed
+                method_parameters: [$.data.editMode]
+                attribute: $.actionAllowed
+            - '@assign_constant_value':
+                attribute: $.integrationType
+                value: Oro\Bundle\CyberSourceBundle\Integration\CyberSourceChannelType::TYPE
+            - '@tree':
+                conditions:
+                    '@and':
+                        - '@equal': [$.actionAllowed, true]
+                        - '@equal': [$.data.type, $.integrationType]
+                actions:
+                    - '@call_service_method':
+                        service: oro_cybersource.checker.integration
+                        method: isDeleteAllowed
+                        method_parameters: [$.data]
+                        attribute: $.actionAllowed

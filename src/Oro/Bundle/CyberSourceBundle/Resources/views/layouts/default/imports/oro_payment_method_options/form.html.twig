@@ -1,0 +1,33 @@
+{% block _oro_cybersource_credit_card_widget %}
+    {% set creditCardComponent = options.creditCardComponent|default('orocybersource/js/app/components/checkout-api/credit-card-component') %}
+    {% set creditCardComponentOptions = options.creditCardComponentOptions|default({})|merge({paymentMethod: paymentMethod}) %}
+
+    <div class="{{ class_prefix }}-form__payment-methods"
+         data-page-component-module="{{ creditCardComponent }}"
+         data-page-component-options="{{ creditCardComponentOptions|json_encode }}">
+        <div>
+            <div class="{{ class_prefix }}-form__payment-methods-form" data-credit-card-form="data-credit-card-form">
+                <div class="form-row">
+                    <label class="label label--full">{{ 'oro.cybersource.credit_card.card_number.label'|trans }}<sup class="checkout-form__asterix">*</sup></label>
+                    <div id="{{ options.creditCardComponentOptions.dynamicSelectors.number }}" class="input input--full oro-cybersource-number-container"></div>
+                </div>
+                {{ form_row(form.expirationDate, {class_prefix: class_prefix}) }}
+
+                <div id="{{ options.creditCardComponentOptions.dynamicSelectors.securityCode }}-wrapper" class="securityCode-container-wrapper">
+                    <label class="label label--full">{{ 'oro.cybersource.credit_card.cvv2.label'|trans }}<sup class="checkout-form__asterix">*</sup></label>
+                    <div id="{{ options.creditCardComponentOptions.dynamicSelectors.securityCode }}" class="input input--full form-field-CVV2 oro-cybersource-CVV2-container"></div>
+                    <a href="#"
+                       data-toggle="tooltip"
+                       data-title="{{ 'oro.cybersource.credit_card.tooltip'|trans }}"
+                       data-html="true"
+                       data-container="body"
+                       data-placement="{% if isMobileVersion() %}top{% else %}right{% endif %}"
+                       data-offset="0, 8px"
+                    >
+                        {{ 'oro.cybersource.credit_card.whats_this'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
