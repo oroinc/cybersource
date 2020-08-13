@@ -15,7 +15,7 @@
         "exclude-from-classmap": ["/Tests/"]
     },
     "require": {
-        "oro/commerce": "~4.1.7",
+        "oro/commerce": "4.1.*",
         "cybersource/rest-client-php": "^0.0.14"
     },
     "repositories": {
