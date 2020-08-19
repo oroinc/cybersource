@@ -62,10 +62,6 @@ Feature: Process order submission single page checkout
     And I select "Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
     And I select "Fifth avenue, 10115 Berlin, Germany" from "Select Shipping Address"
     And I check "Flat Rate" on the checkout page
-    And I fill "CyberSourceCreditCardForm" with:
-      # Month with value 12 is a marker to throw gateway error(see FlexStub.js).
-      | Month            | 12   |
-      | Year             | 2028 |
     And I click "Submit Order"
     Then I should see "This value should not be blank." in the "CardNumberValidationMessage" element
     And I should see "This value should not be blank." in the "CvvValidationMessage" element
@@ -81,7 +77,11 @@ Feature: Process order submission single page checkout
     And I should not see "This value should not be blank." in the "CardNumberValidationMessage" element
     And I should not see "This value is not valid." in the "CvvValidationMessage" element
     And I should not see "This value should not be blank." in the "CvvValidationMessage" element
-    When I click "Submit Order"
+    When I fill "CyberSourceCreditCardForm" with:
+      # Month with value 12 is a marker to throw gateway error(see FlexStub.js).
+      | Month            | 12   |
+      | Year             | 2028 |
+    And I click "Submit Order"
     Then I should see "Payment gateway error." flash message
 
   Scenario: Failed payment authorization due to invalid credit card token

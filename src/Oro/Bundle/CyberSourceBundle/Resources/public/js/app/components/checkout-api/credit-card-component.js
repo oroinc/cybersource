@@ -104,6 +104,9 @@ define(function(require) {
 
             this.$form = this.$el.find(this.options.selectors.form);
 
+            // To validate cvv, card number and expiration date at once on single page checkout
+            this.$el.closest('form').on('submit', this._validateMicroform.bind(this));
+
             this.$el
                 .on('change.' + this.cid, this.options.selectors.month, this._collectMonthDate.bind(this))
                 .on('change.' + this.cid, this.options.selectors.year, this._collectYearDate.bind(this));
