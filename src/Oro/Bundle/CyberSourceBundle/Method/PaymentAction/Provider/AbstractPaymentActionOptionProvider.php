@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CyberSourceBundle\Method\PaymentAction\Provider;
 
 use CyberSource\Model\Ptsv2paymentsClientReferenceInformation;
+use CyberSource\Model\Ptsv2paymentsClientReferenceInformationPartner;
 use CyberSource\Model\Ptsv2paymentsidreversalsClientReferenceInformation;
 use CyberSource\Model\Ptsv2paymentsidreversalsReversalInformation;
 use CyberSource\Model\Ptsv2paymentsidreversalsReversalInformationAmountDetails;
@@ -21,6 +22,7 @@ use Oro\Bundle\PaymentBundle\Provider\AddressExtractor;
  */
 abstract class AbstractPaymentActionOptionProvider implements PaymentActionOptionProviderInterface
 {
+    const SOLUTION_ID = 'YBE25ZRJ';
     const BILLING_ADDRESS_PROPERTY = 'billingAddress';
 
     /** @var DoctrineHelper */
@@ -61,7 +63,10 @@ abstract class AbstractPaymentActionOptionProvider implements PaymentActionOptio
     public function getCaptureOptions(CyberSourceConfigInterface $config, PaymentTransaction $transaction)
     {
         $clientReferenceInfo = [
-            'code' => $this->getClientReferenceCode($transaction)
+            'code' => $this->getClientReferenceCode($transaction),
+            'partner' => new Ptsv2paymentsClientReferenceInformationPartner(
+                ['solutionId' => self::SOLUTION_ID]
+            )
         ];
 
         $amountDetailsArray = [
@@ -87,7 +92,10 @@ abstract class AbstractPaymentActionOptionProvider implements PaymentActionOptio
     {
         $clientReferenceInformation = new Ptsv2paymentsidreversalsClientReferenceInformation(
             [
-                'code' => $this->getClientReferenceCode($transaction)
+                'code' => $this->getClientReferenceCode($transaction),
+                'partner' => new Ptsv2paymentsClientReferenceInformationPartner(
+                    ['solutionId' => self::SOLUTION_ID]
+                )
             ]
         );
 

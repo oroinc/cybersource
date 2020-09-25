@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CyberSourceBundle\Method\PaymentAction\Provider\CheckoutApi;
 
 use CyberSource\Model\Ptsv2paymentsClientReferenceInformation;
+use CyberSource\Model\Ptsv2paymentsClientReferenceInformationPartner;
 use CyberSource\Model\Ptsv2paymentsOrderInformation;
 use CyberSource\Model\Ptsv2paymentsOrderInformationAmountDetails;
 use CyberSource\Model\Ptsv2paymentsOrderInformationBillTo;
@@ -33,7 +34,10 @@ class PaymentActionOptionProvider extends AbstractPaymentActionOptionProvider
         }
 
         $clientReferenceInformationArr = [
-            'code' => $this->getClientReferenceCode($transaction)
+            'code' => $this->getClientReferenceCode($transaction),
+            'partner' => new Ptsv2paymentsClientReferenceInformationPartner(
+                ['solutionId' => self::SOLUTION_ID]
+            )
         ];
 
         $orderInformationAmountDetailsArr = [
