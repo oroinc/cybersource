@@ -3,13 +3,13 @@
 namespace Oro\Bundle\CyberSourceBundle\Form\Type;
 
 use Oro\Bundle\CyberSourceBundle\Entity\CyberSourceSettings;
+use Oro\Bundle\FormBundle\Form\Type\OroEncodedPlaceholderPasswordType;
 use Oro\Bundle\IntegrationBundle\Provider\TransportInterface;
 use Oro\Bundle\LocaleBundle\Form\Type\LocalizedFallbackValueCollectionType;
 use Oro\Bundle\SecurityBundle\Form\DataTransformer\Factory\CryptedDataTransformerFactoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -106,7 +106,7 @@ class CyberSourceSettingsType extends AbstractType
                     new Length(['max' => 255, 'maxMessage' => $maxMessage])
                 ],
             ])
-            ->add('cbsApiSecretKey', TextType::class, [
+            ->add('cbsApiSecretKey', OroEncodedPlaceholderPasswordType::class, [
                 'label' => 'oro.cybersource.settings.api_secret_key.label',
                 'required' => true,
                 'constraints' => [
@@ -114,7 +114,7 @@ class CyberSourceSettingsType extends AbstractType
                     new Length(['max' => 255, 'maxMessage' => $maxMessage])
                 ],
             ])
-            ->add('cbsSecretKey', TextareaType::class, [
+            ->add('cbsSecretKey', OroEncodedPlaceholderPasswordType::class, [
                 'label' => 'oro.cybersource.settings.secret_key.label',
                 'required' => true,
             ])
@@ -135,8 +135,6 @@ class CyberSourceSettingsType extends AbstractType
 
         $this->enableEncryption($builder, 'cbsAccessKey');
         $this->enableEncryption($builder, 'cbsApiKey');
-        $this->enableEncryption($builder, 'cbsApiSecretKey');
-        $this->enableEncryption($builder, 'cbsSecretKey');
     }
 
     /**
