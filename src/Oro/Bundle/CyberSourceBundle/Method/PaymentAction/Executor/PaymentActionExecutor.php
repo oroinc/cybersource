@@ -65,9 +65,9 @@ class PaymentActionExecutor implements PaymentActionExecutorInterface
     /**
      * @param string $name
      *
+     * @throws \InvalidArgumentException
      * @return PaymentActionInterface
      *
-     * @throws \InvalidArgumentException
      */
     protected function getPaymentAction($name)
     {

@@ -149,6 +149,7 @@ abstract class AbstractPaymentActionOptionProvider implements PaymentActionOptio
         if ($entity instanceof Order) {
             return (string)$entity->getIdentifier();
         }
+
         return $paymentTransaction->getReference();
     }
 

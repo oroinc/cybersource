@@ -20,7 +20,7 @@ interface PaymentActionInterface
 
     /**
      * @param CyberSourceConfigInterface $cyberSourceConfig
-     * @param PaymentTransaction    $paymentTransaction
+     * @param PaymentTransaction $paymentTransaction
      *
      * @return array
      */

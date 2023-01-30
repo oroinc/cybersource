@@ -51,6 +51,7 @@ class CyberSourceCheckoutApiPaymentMethodView implements PaymentMethodViewInterf
         }
 
         $paymentMethodId = $this->config->getPaymentMethodIdentifier();
+
         return [
             'formView'                   => $form->createView(),
             'creditCardComponentOptions' => [

@@ -50,9 +50,9 @@ class ApiClientMock extends ApiClient
     /**
      * @param CreatePaymentRequest $data
      *
+     * @throws ApiException
      * @return \stdClass
      *
-     * @throws ApiException
      */
     protected function getPurchaseResponse(CreatePaymentRequest $data): \stdClass
     {
@@ -67,9 +67,9 @@ class ApiClientMock extends ApiClient
     }
 
     /**
+     * @throws ApiException
      * @return \stdClass
      *
-     * @throws ApiException
      */
     protected function getGeneratePublicKeyResponse(): \stdClass
     {
@@ -84,9 +84,9 @@ class ApiClientMock extends ApiClient
     }
 
     /**
+     * @throws ApiException
      * @return \stdClass
      *
-     * @throws ApiException
      */
     protected function getCaptureResponse(): \stdClass
     {
@@ -101,9 +101,9 @@ class ApiClientMock extends ApiClient
     }
 
     /**
+     * @throws ApiException
      * @return \stdClass
      *
-     * @throws ApiException
      */
     protected function getCancelResponse(): \stdClass
     {

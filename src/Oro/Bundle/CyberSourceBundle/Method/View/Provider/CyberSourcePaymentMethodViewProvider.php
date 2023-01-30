@@ -38,9 +38,9 @@ class CyberSourcePaymentMethodViewProvider extends AbstractPaymentMethodViewProv
         FormFactoryInterface $formFactory,
         CheckoutApiHandler $checkoutApiHandler
     ) {
-        $this->factory            = $factory;
-        $this->configProvider     = $configProvider;
-        $this->formFactory        = $formFactory;
+        $this->factory = $factory;
+        $this->configProvider = $configProvider;
+        $this->formFactory = $formFactory;
         $this->checkoutApiHandler = $checkoutApiHandler;
 
         parent::__construct();

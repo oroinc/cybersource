@@ -12,7 +12,7 @@ class OroCyberSourceExtension extends Extension
     const ALIAS = 'oro_cybersource';
 
     /**
-     * @param array            $configs
+     * @param array $configs
      * @param ContainerBuilder $container
      *
      * @throws \Exception

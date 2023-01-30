@@ -27,8 +27,8 @@ class CyberSourceCheckoutListener
     protected $messageProvider;
 
     /**
-     * @param Session                               $session
-     * @param PaymentMethodProviderInterface        $paymentMethodProvider
+     * @param Session $session
+     * @param PaymentMethodProviderInterface $paymentMethodProvider
      * @param PaymentResultMessageProviderInterface $messageProvider
      */
     public function __construct(

@@ -12,7 +12,7 @@ use CyberSource\Configuration;
 interface ApiClientFactoryInterface
 {
     /**
-     * @param Configuration         $config
+     * @param Configuration $config
      * @param MerchantConfiguration $merchantConfig
      *
      * @return ApiClient

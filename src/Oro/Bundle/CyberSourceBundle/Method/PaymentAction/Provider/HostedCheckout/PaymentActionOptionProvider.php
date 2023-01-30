@@ -274,7 +274,7 @@ class PaymentActionOptionProvider extends AbstractPaymentActionOptionProvider
     /**
      * @param PaymentTransaction $transaction
      *
-     * @return null|OrderLineItem[]
+     * @return OrderLineItem[]|null
      */
     protected function getLineItems(PaymentTransaction $transaction)
     {

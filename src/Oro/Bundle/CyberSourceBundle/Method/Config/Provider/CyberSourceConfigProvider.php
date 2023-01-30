@@ -26,8 +26,8 @@ class CyberSourceConfigProvider implements CyberSourceConfigProviderInterface
     protected $logger;
 
     /**
-     * @param ManagerRegistry                  $doctrine
-     * @param LoggerInterface                  $logger
+     * @param ManagerRegistry $doctrine
+     * @param LoggerInterface $logger
      * @param CyberSourceConfigFactoryInterface $configFactory
      */
     public function __construct(
@@ -82,6 +82,7 @@ class CyberSourceConfigProvider implements CyberSourceConfigProviderInterface
         } catch (\UnexpectedValueException $e) {
             $this->logger->error($e->getMessage());
         }
+
         return [];
     }
 

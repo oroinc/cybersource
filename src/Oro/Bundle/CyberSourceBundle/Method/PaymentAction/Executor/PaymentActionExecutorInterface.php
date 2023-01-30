@@ -19,13 +19,13 @@ interface PaymentActionExecutorInterface
     public function addPaymentAction(PaymentActionInterface $paymentAction);
 
     /**
-     * @param string                $action
+     * @param string $action
      * @param CyberSourceConfigInterface $cyberSourceConfig
-     * @param PaymentTransaction    $paymentTransaction
-     *
-     * @return array
+     * @param PaymentTransaction $paymentTransaction
      *
      * @throws \InvalidArgumentException
+     * @return array
+     *
      */
     public function execute(
         $action,
