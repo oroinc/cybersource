@@ -1,12 +1,12 @@
 {% block oro_cybersource_settings_widget %}
-    {% import 'OroUIBundle::macros.html.twig' as UI %}
+    {% import '@OroUI/macros.html.twig' as ui %}
     <fieldset class="form-horizontal">
         <h5 class="user-fieldset">
             <span>{{ 'oro.cybersource.settings.form.groups.display_options.title'|trans }}</span>
         </h5>
         <div class="control-group control-group-choice">
             <div class="control-label wrap">
-                {{ UI.tooltip('oro.cybersource.settings.labels.tooltip', {}, 'right') }}
+                {{ ui.tooltip('oro.cybersource.settings.labels.tooltip', {}, 'right') }}
                 {{ form_label(form.labels) }}
             </div>
             <div class="controls">
@@ -15,7 +15,7 @@
         </div>
         <div class="control-group control-group-choice">
             <div class="control-label wrap">
-                {{ UI.tooltip('oro.cybersource.settings.short_labels.tooltip', {}, 'right') }}
+                {{ ui.tooltip('oro.cybersource.settings.short_labels.tooltip', {}, 'right') }}
                 {{ form_label(form.shortLabels) }}
             </div>
             <div class="controls">
@@ -29,7 +29,7 @@
         </h5>
         <div class="control-group control-group-choice">
             <div class="control-label wrap">
-                {{ UI.tooltip('oro.cybersource.settings.method.tooltip', {}, 'right') }}
+                {{ ui.tooltip('oro.cybersource.settings.method.tooltip', {}, 'right') }}
                 {{ form_label(form.cbsMethod) }}
             </div>
             <div class="controls">
@@ -39,7 +39,7 @@
         {{ form_row(form.cbsTestMode) }}
         <div class="control-group control-group-choice">
             <div class="control-label wrap">
-                {{ UI.tooltip('oro.cybersource.settings.merchant_id.tooltip', {}, 'right') }}
+                {{ ui.tooltip('oro.cybersource.settings.merchant_id.tooltip', {}, 'right') }}
                 {{ form_label(form.cbsMerchantId) }}
             </div>
             <div class="controls">
@@ -48,7 +48,7 @@
         </div>
         <div class="control-group control-group-choice">
             <div class="control-label wrap">
-                {{ UI.tooltip('oro.cybersource.settings.merchant_descriptor.tooltip', {}, 'right') }}
+                {{ ui.tooltip('oro.cybersource.settings.merchant_descriptor.tooltip', {}, 'right') }}
                 {{ form_label(form.cbsMerchantDescriptor) }}
             </div>
             <div class="controls">
@@ -57,7 +57,7 @@
         </div>
         <div class="control-group control-group-choice">
             <div class="control-label wrap">
-                {{ UI.tooltip('oro.cybersource.settings.profile_id.tooltip', {}, 'right') }}
+                {{ ui.tooltip('oro.cybersource.settings.profile_id.tooltip', {}, 'right') }}
                 {{ form_label(form.cbsProfileId) }}
             </div>
             <div class="controls">
@@ -66,7 +66,7 @@
         </div>
         <div class="control-group control-group-choice">
             <div class="control-label wrap">
-                {{ UI.tooltip('oro.cybersource.settings.access_key.tooltip', {}, 'right') }}
+                {{ ui.tooltip('oro.cybersource.settings.access_key.tooltip', {}, 'right') }}
                 {{ form_label(form.cbsAccessKey) }}
             </div>
             <div class="controls">
@@ -76,7 +76,7 @@
         </div>
         <div class="control-group control-group-choice">
             <div class="control-label wrap">
-                {{ UI.tooltip('oro.cybersource.settings.api_key.tooltip', {}, 'right') }}
+                {{ ui.tooltip('oro.cybersource.settings.api_key.tooltip', {}, 'right') }}
                 {{ form_label(form.cbsApiKey) }}
             </div>
             <div class="controls">
@@ -86,7 +86,7 @@
         </div>
         <div class="control-group control-group-choice">
             <div class="control-label wrap">
-                {{ UI.tooltip('oro.cybersource.settings.api_secret_key.tooltip', {}, 'right') }}
+                {{ ui.tooltip('oro.cybersource.settings.api_secret_key.tooltip', {}, 'right') }}
                 {{ form_label(form.cbsApiSecretKey) }}
             </div>
             <div class="controls">
@@ -96,7 +96,7 @@
         </div>
         <div class="control-group control-group-choice">
             <div class="control-label wrap">
-                {{ UI.tooltip('oro.cybersource.settings.secret_key.tooltip', {}, 'right') }}
+                {{ ui.tooltip('oro.cybersource.settings.secret_key.tooltip', {}, 'right') }}
                 {{ form_label(form.cbsSecretKey) }}
             </div>
             <div class="controls">

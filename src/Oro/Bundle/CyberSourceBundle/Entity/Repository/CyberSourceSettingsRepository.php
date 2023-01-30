@@ -2,14 +2,14 @@
 
 namespace Oro\Bundle\CyberSourceBundle\Entity\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Oro\Bundle\CyberSourceBundle\Entity\CyberSourceSettings;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
 /**
  * Repository for CyberSourceSettings entity
  */
-class CyberSourceSettingsRepository extends EntityRepository
+class CyberSourceSettingsRepository extends ServiceEntityRepository
 {
     /** @var AclHelper */
     protected $aclHelper;
