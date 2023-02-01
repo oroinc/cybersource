@@ -1,5 +1,5 @@
 layout:
     actions:
-        -   '@setBlockTheme':
-                themes:
-                    - '@OroCyberSource/layouts/default/imports/oro_payment_method_order_submit/layout.html.twig'
+        - '@setBlockTheme':
+            themes:
+                - 'layout.html.twig'
