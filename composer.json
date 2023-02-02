@@ -15,8 +15,8 @@
         "exclude-from-classmap": ["/Tests/"]
     },
     "require": {
-        "oro/commerce": "4.2.*",
-        "cybersource/rest-client-php": "^0.0.14"
+        "oro/commerce": "5.0.*",
+        "americaneagle-com/cybersource-rest-client-php": "dev-master"
     },
     "repositories": {
         "oro": {
@@ -28,7 +28,7 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "4.2-dev"
+            "dev-master": "5.0-dev"
         }
     }
 }
