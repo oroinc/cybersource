@@ -8,7 +8,8 @@ use Oro\Bundle\PaymentBundle\Method\Provider\PaymentMethodProviderInterface;
 use Oro\Bundle\PaymentBundle\Provider\PaymentResultMessageProviderInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 /**
  * Handles a payment callback event triggered when CyberSource redirects a user after an attempt to make a payment.
@@ -17,28 +18,16 @@ class CyberSourceCheckoutListener
 {
     use LoggerAwareTrait;
 
-    /** @var Session */
-    protected $session;
-
-    /** @var PaymentMethodProviderInterface */
-    protected $paymentMethodProvider;
-
-    /** @var PaymentResultMessageProviderInterface */
-    protected $messageProvider;
-
     /**
-     * @param Session $session
      * @param PaymentMethodProviderInterface $paymentMethodProvider
      * @param PaymentResultMessageProviderInterface $messageProvider
+     * @param RequestStack $requestStack
      */
     public function __construct(
-        Session $session,
-        PaymentMethodProviderInterface $paymentMethodProvider,
-        PaymentResultMessageProviderInterface $messageProvider
+        protected PaymentMethodProviderInterface $paymentMethodProvider,
+        protected PaymentResultMessageProviderInterface $messageProvider,
+        protected RequestStack $requestStack
     ) {
-        $this->session = $session;
-        $this->paymentMethodProvider = $paymentMethodProvider;
-        $this->messageProvider = $messageProvider;
     }
 
     /**
@@ -93,7 +82,7 @@ class CyberSourceCheckoutListener
                 )
             );
 
-            $flashBag = $this->session->getFlashBag();
+            $flashBag = $this->requestStack->getSession()->getFlashBag();
             if (!$flashBag->has('error')) {
                 $flashBag->add('error', $this->messageProvider->getErrorMessage($paymentTransaction));
             }
@@ -110,10 +99,7 @@ class CyberSourceCheckoutListener
 
             $event->markSuccessful();
         } catch (\InvalidArgumentException $e) {
-            if ($this->logger) {
-                // do not expose sensitive data in context
-                $this->logger->error($e->getMessage(), []);
-            }
+            $this->logger->error($e->getMessage()); // do not expose sensitive data in context
         }
     }
 
