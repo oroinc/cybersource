@@ -1,6 +1,6 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroCheckoutBundle:Shipping.yml
-@fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
+@fixture-OroCyberSourceBundle:ProductsAndShoppingListsForPayments.yml
 Feature: Process order submission single page checkout
   In order to purchase goods using CyberSource payment system
   As a Buyer
@@ -59,8 +59,8 @@ Feature: Process order submission single page checkout
     And I operate as the Buyer
     When I open page with shopping list List 2
     And I click "Create Order"
-    And I select "Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
-    And I select "Fifth avenue, 10115 Berlin, Germany" from "Select Shipping Address"
+    And I select "Oro, Fifth avenue, 10115 Berlin, Germany" from "Select Billing Address"
+    And I select "Oro, Fifth avenue, 10115 Berlin, Germany" from "Select Shipping Address"
     And I check "Flat Rate" on the checkout page
     And I click "Submit Order"
     Then I should see "This value should not be blank." in the "CardNumberValidationMessage" element

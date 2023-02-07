@@ -9,6 +9,7 @@ use CyberSource\Model\FlexV1KeysPost200Response;
 use CyberSource\Model\PtsV2PaymentsCapturesPost201Response;
 use CyberSource\Model\PtsV2PaymentsPost201Response;
 use CyberSource\Model\PtsV2PaymentsReversalsPost201Response;
+use Oro\Bundle\CyberSourceBundle\Method\PaymentAction\Handler\CheckoutApiHandler;
 
 class ApiClientMock extends ApiClient
 {
@@ -59,6 +60,7 @@ class ApiClientMock extends ApiClient
         if (self::VALID_FLEXIBLE_FORM_TOKEN === $data->getTokenInformation()->getTransientTokenJwt()) {
             $response = new \stdClass();
             $response->id = 'id';
+            $response->status = CheckoutApiHandler::PAYMENT_AUTHORIZED_RESPONSE_STATUS;
 
             return $response;
         }

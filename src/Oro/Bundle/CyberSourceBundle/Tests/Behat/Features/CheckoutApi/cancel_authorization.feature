@@ -1,6 +1,6 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroCheckoutBundle:Shipping.yml
-@fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
+@fixture-OroCyberSourceBundle:ProductsAndShoppingListsForPayments.yml
 Feature: Cancel authorization
   In order to reverse payment
   As an Administrator

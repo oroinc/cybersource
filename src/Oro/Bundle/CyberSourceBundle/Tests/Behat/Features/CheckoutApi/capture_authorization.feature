@@ -1,6 +1,6 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroCheckoutBundle:Shipping.yml
-@fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
+@fixture-OroCyberSourceBundle:ProductsAndShoppingListsForPayments.yml
 Feature: Capture authorization
   In order to settle payment
   As an Administrator

@@ -1,6 +1,6 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroCheckoutBundle:Shipping.yml
-@fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
+@fixture-OroCyberSourceBundle:ProductsAndShoppingListsForPayments.yml
 Feature: CyberSource integration can not be deleted
   In order to have working payment method
   As an Administrator

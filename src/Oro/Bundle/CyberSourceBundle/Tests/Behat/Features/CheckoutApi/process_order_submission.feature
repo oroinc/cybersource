@@ -1,6 +1,6 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroCheckoutBundle:Shipping.yml
-@fixture-OroPaymentBundle:ProductsAndShoppingListsForPayments.yml
+@fixture-OroCyberSourceBundle:ProductsAndShoppingListsForPayments.yml
 Feature: Process order submission
   In order to purchase goods using CyberSource payment system
   As a Buyer

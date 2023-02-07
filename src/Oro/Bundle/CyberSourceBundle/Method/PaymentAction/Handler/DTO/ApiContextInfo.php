@@ -14,7 +14,7 @@ class ApiContextInfo
     protected $response;
 
     /** @var boolean */
-    protected $isSuccessfull;
+    protected $isSuccessfull = false;
 
     /** @var string */
     protected $errorMessage = '';

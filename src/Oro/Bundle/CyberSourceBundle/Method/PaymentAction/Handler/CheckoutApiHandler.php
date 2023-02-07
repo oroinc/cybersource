@@ -35,6 +35,9 @@ class CheckoutApiHandler implements LoggerAwareInterface
 {
     const ENCRYPTION_TYPE = 'RsaOaep256';
     const FORMAT = 'JWT';
+    const PAYMENT_AUTHORIZED_RESPONSE_STATUS = 'AUTHORIZED';
+    const ENV_PROD = 'api.cybersource.com';
+    const ENV_TEST = 'apitest.cybersource.com';
 
     use LoggerAwareTrait;
 
@@ -48,8 +51,8 @@ class CheckoutApiHandler implements LoggerAwareInterface
     protected $apiClientFactory;
 
     /**
-     * @param WebsiteUrlResolver        $urlResolver
-     * @param WebsiteManager            $websiteManager
+     * @param WebsiteUrlResolver $urlResolver
+     * @param WebsiteManager $websiteManager
      * @param ApiClientFactoryInterface $apiClientFactory
      */
     public function __construct(
@@ -71,29 +74,19 @@ class CheckoutApiHandler implements LoggerAwareInterface
     {
         $merchantConfig = new MerchantConfiguration();
 
-        $merchantEnvironment = GlobalParameter::RUNPRODENVIRONMENT;
-        if ($config->isTestMode()) {
-            $merchantEnvironment = GlobalParameter::RUNENVIRONMENT;
-        }
+        $merchantConfig->setAuthenticationType(GlobalParameter::HTTP_SIGNATURE);
+        $merchantConfig->setRunEnvironment($config->isTestMode() ? self::ENV_TEST : self::ENV_PROD);
+        $merchantConfig->setMerchantID($config->getMerchantId());
+        $merchantConfig->setApiKeyID($config->getApiKey());
+        $merchantConfig->setSecretKey($config->getApiSecretKey());
 
-        $merchantConfig
-            ->setDebug(false)
-            ->setAuthenticationType(GlobalParameter::HTTP_SIGNATURE)
-            ->setRunEnvironment($merchantEnvironment)
-            ->setMerchantID($config->getMerchantId())
-            ->setApiKeyID($config->getApiKey())
-            ->setSecretKey($config->getApiSecretKey());
-
-        $merchantConfig->validateMerchantData($merchantConfig);
+        $merchantConfig->validateMerchantData();
 
         $config = new Configuration();
         $config->setHost($merchantConfig->getHost());
-        $config->setDebug(false);
         $config->setSSLVerification(true);
 
-        $apiClient = $this->apiClientFactory->create($config, $merchantConfig);
-
-        return $apiClient;
+        return $this->apiClientFactory->create($config, $merchantConfig);
     }
 
     /**
@@ -109,13 +102,14 @@ class CheckoutApiHandler implements LoggerAwareInterface
         $request = new CreatePaymentRequest($options);
         $result->setRequest(json_decode((string)$request, true));
 
-        $result->setIsSuccessfull(false);
         $paymentApi = new PaymentsApi($this->getApiClient($config));
         try {
-            list($response, $statusCode, $httpHeader) = $paymentApi->createPayment($request);
+            [$response, $statusCode, $httpHeader] = $paymentApi->createPayment($request);
 
             if ($response instanceof PtsV2PaymentsPost201Response) {
-                $result->setIsSuccessfull(true);
+                if ($response->getStatus() === self::PAYMENT_AUTHORIZED_RESPONSE_STATUS) {
+                    $result->setIsSuccessfull(true);
+                }
                 $response = json_decode((string)$response, true);
                 $response[AbstractPaymentAction::TRANSACTION_ID_KEY] = $response['id'] ?: '';
                 $result->setResponse($response);
@@ -151,10 +145,9 @@ class CheckoutApiHandler implements LoggerAwareInterface
         $request = new AuthReversalRequest($options);
         $result->setRequest(json_decode((string)$request, true));
 
-        $result->setIsSuccessfull(false);
         $cancelApi = new ReversalApi($this->getApiClient($config));
         try {
-            list($response, $statusCode, $httpHeader) = $cancelApi->authReversal($transactionId, $request);
+            [$response, $statusCode, $httpHeader] = $cancelApi->authReversal($transactionId, $request);
 
             if ($response instanceof PtsV2PaymentsReversalsPost201Response) {
                 $result->setIsSuccessfull(true);
@@ -192,10 +185,9 @@ class CheckoutApiHandler implements LoggerAwareInterface
         $request = new CapturePaymentRequest($options);
         $result->setRequest(json_decode((string)$request, true));
 
-        $result->setIsSuccessfull(false);
         $captureApi = new CaptureApi($this->getApiClient($config));
         try {
-            list($response, $statusCode, $httpHeader) = $captureApi->capturePayment($request, $transactionId);
+            [$response, $statusCode, $httpHeader] = $captureApi->capturePayment($request, $transactionId);
 
             if ($response instanceof PtsV2PaymentsCapturesPost201Response) {
                 $result->setIsSuccessfull(true);
@@ -236,12 +228,11 @@ class CheckoutApiHandler implements LoggerAwareInterface
         $request = new GeneratePublicKeyRequest($requestArray);
         $result->setRequest(json_decode((string)$request, true));
 
-        $result->setIsSuccessfull(false);
         $keyGenerationApi = new KeyGenerationApi($this->getApiClient($config));
         try {
-            list($response, $statusCode, $httpHeader) = $keyGenerationApi->generatePublicKey(
-                $request,
-                self::FORMAT
+            [$response, $statusCode, $httpHeader] = $keyGenerationApi->generatePublicKey(
+                self::FORMAT,
+                $request
             );
 
             if ($response instanceof FlexV1KeysPost200Response) {
