@@ -22,6 +22,18 @@
         "oro": {
             "type": "composer",
             "url": "https://packagist.orocrm.com"
+        },
+        "cybersource-rest-client-php": {
+            "type": "vcs",
+            "url": "https://github.com/americaneagle-com/cybersource-rest-client-php"
+        },
+        "apcu-adapter": {
+            "type": "vcs",
+            "url": "https://github.com/americaneagle-com/apcu-adapter"
+        },
+        "adapter-common": {
+            "type": "vcs",
+            "url": "https://github.com/americaneagle-com/adapter-common"
         }
     },
     "minimum-stability": "dev",
