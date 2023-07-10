@@ -1,0 +1,54 @@
+services:
+    oro_cybersource.method.generator.identifier:
+        parent: oro_integration.generator.prefixed_identifier_generator
+        public: true
+        arguments:
+            - 'oro_cybersource'
+
+    oro_cybersource.method.config.factory:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\Config\Factory\CyberSourceConfigFactory'
+        public: false
+        arguments:
+            - '@oro_locale.helper.localization'
+            - '@oro_cybersource.method.generator.identifier'
+            - '@oro_security.encoder.default'
+            - '@logger'
+
+    oro_cybersource.method.config.provider:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\Config\Provider\CyberSourceConfigProvider'
+        public: false
+        arguments:
+            - '@doctrine'
+            - '@logger'
+            - '@oro_cybersource.method.config.factory'
+
+    oro_cybersource.method.cybersource.factory:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\Factory\CyberSourcePaymentMethodFactory'
+        public: false
+        arguments:
+            - '@oro_cybersource.method.executor.hosted_checkout.payment_action'
+            - '@oro_cybersource.method.executor.checkout_api.payment_action'
+
+    oro_cybersource.method.cybersource.provider:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\Provider\CyberSourcePaymentMethodProvider'
+        public: false
+        arguments:
+            - '@oro_cybersource.method.config.provider'
+            - '@oro_cybersource.method.cybersource.factory'
+        tags:
+            - { name: oro_payment.payment_method_provider }
+
+    oro_cybersource.method.view.factory:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\View\Factory\CyberSourcePaymentMethodViewFactory'
+        public: false
+
+    oro_cybersource.method.view.provider:
+        class: 'Oro\Bundle\CyberSourceBundle\Method\View\Provider\CyberSourcePaymentMethodViewProvider'
+        public: false
+        arguments:
+            - '@oro_cybersource.method.config.provider'
+            - '@oro_cybersource.method.view.factory'
+            - '@form.factory'
+            - '@oro_cybersource.method.payment_action.checkout_api_handler'
+        tags:
+            - { name: oro_payment.payment_method_view_provider }

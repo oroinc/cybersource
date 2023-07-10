@@ -1,0 +1,21 @@
+services:
+    oro_cybersource.event_listener.callback.cybersource_checkout:
+        class: 'Oro\Bundle\CyberSourceBundle\EventListener\Callback\CyberSourceCheckoutListener'
+        lazy: true
+        arguments:
+            - '@oro_cybersource.method.cybersource.provider'
+            - '@oro_payment.provider.result_messages'
+            - '@oro_cybersource.method.config.provider'
+            - '@request_stack'
+        calls:
+            - ['setLogger', ['@logger']]
+        tags:
+            - { name: kernel.event_listener, event: oro_payment.callback.error, method: onError }
+            - { name: kernel.event_listener, event: oro_payment.callback.return, method: onReturn }
+
+    Oro\Bundle\CyberSourceBundle\EventListener\HttpKernel\AllowCrossOriginCookiesListener:
+        arguments:
+            - '@request_stack'
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse, priority: -1001 } # execute after \Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelResponse
