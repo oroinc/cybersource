@@ -1,5 +1,0 @@
-dynamic-imports:
-    orocybersource:
-        - orocybersource/js/app/components/hosted-checkout/order-review-component
-        - orocybersource/js/app/components/checkout-api/credit-card-component
-        - orocybersource/js/app/components/checkout-api/order-review-component

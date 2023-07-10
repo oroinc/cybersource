@@ -1,7 +1,0 @@
-services:
-    oro_cybersource.cybersource.factory.api_client:
-        class: 'Oro\Bundle\CyberSourceBundle\Tests\Behat\Mock\CyberSource\Factory\ApiClientFactoryMock'
-
-    oro_cybersource.method.view.factory:
-        class: 'Oro\Bundle\CyberSourceBundle\Tests\Behat\Mock\Method\View\Factory\CyberSourcePaymentMethodViewFactoryMock'
-        public: false
